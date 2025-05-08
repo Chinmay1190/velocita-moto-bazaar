@@ -1,12 +1,58 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import { useEffect } from "react";
+import { Hero } from "@/components/home/Hero";
+import { FeaturedCategories } from "@/components/home/FeaturedCategories";
+import { ProductGrid } from "@/components/product/ProductGrid";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { getNewProducts, getOnSaleProducts, products } from "@/data/products";
+import { motion } from "framer-motion";
 
 const Index = () => {
+  // Set theme based on localStorage or default to light
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme") || "light";
+    document.documentElement.classList.toggle("dark", storedTheme === "dark");
+  }, []);
+  
+  const newProducts = getNewProducts();
+  const saleProducts = getOnSaleProducts();
+  const featuredProducts = products.slice(0, 8);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">
+        <Hero />
+        <div className="container mx-auto px-4">
+          <motion.section 
+            className="py-12"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="text-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold">Welcome to Velocita Moto Bazaar</h2>
+              <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                Premium superbike destination offering the finest selection of high-performance motorcycles in India
+              </p>
+            </div>
+          </motion.section>
+          
+          {newProducts.length > 0 && (
+            <ProductGrid products={newProducts} title="New Arrivals" />
+          )}
+          
+          <FeaturedCategories />
+          
+          {saleProducts.length > 0 && (
+            <ProductGrid products={saleProducts} title="Special Offers" />
+          )}
+          
+          <ProductGrid products={featuredProducts} title="Featured Bikes" />
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
