@@ -1,28 +1,14 @@
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "./ThemeProvider";
 
 export function ThemeToggle() {
-  const [theme, setThemeState] = useState<"light" | "dark">("light");
-
-  useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains("dark");
-    setThemeState(isDarkMode ? "dark" : "light");
-  }, []);
+  const { theme, toggleTheme } = useTheme();
   
-  useEffect(() => {
-    const isDark = theme === "dark";
-    document.documentElement.classList.toggle("dark", isDark);
-    localStorage.setItem("theme", theme);
-  }, [theme]);
-
-  function toggleTheme() {
-    setThemeState(prevTheme => prevTheme === "light" ? "dark" : "light");
-  }
-
   return (
-    <Button variant="ghost" size="icon" onClick={toggleTheme}>
+    <Button variant="ghost" size="icon" onClick={toggleTheme} aria-label="Toggle theme">
       <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
       <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
       <span className="sr-only">Toggle theme</span>

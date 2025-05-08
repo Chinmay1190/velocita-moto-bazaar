@@ -75,6 +75,11 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* Improved transition for theme changes */
+  .theme-transition {
+    @apply transition-colors duration-300;
+  }
 }
 
 @layer components {

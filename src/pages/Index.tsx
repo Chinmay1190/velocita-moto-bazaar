@@ -1,5 +1,4 @@
 
-import { useEffect } from "react";
 import { Hero } from "@/components/home/Hero";
 import { FeaturedCategories } from "@/components/home/FeaturedCategories";
 import { ProductGrid } from "@/components/product/ProductGrid";
@@ -9,12 +8,6 @@ import { getNewProducts, getOnSaleProducts, products } from "@/data/products";
 import { motion } from "framer-motion";
 
 const Index = () => {
-  // Set theme based on localStorage or default to light
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.classList.toggle("dark", storedTheme === "dark");
-  }, []);
-  
   const newProducts = getNewProducts();
   const saleProducts = getOnSaleProducts();
   const featuredProducts = products.slice(0, 8);

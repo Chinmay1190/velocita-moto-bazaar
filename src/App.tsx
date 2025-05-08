@@ -3,8 +3,9 @@ import React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { ThemeProvider } from "./components/layout/ThemeProvider";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ProductDetail from "./pages/ProductDetail";
@@ -28,31 +29,27 @@ function ScrollToTop() {
 }
 
 const App = () => {
-  // Set theme based on localStorage or default to light
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.classList.toggle("dark", storedTheme === "dark");
-  }, []);
-
   return (
     <React.StrictMode>
       <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <BrowserRouter>
-            <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/product/:id" element={<ProductDetail />} />
-              <Route path="/category/:categoryName" element={<CategoryPage />} />
-              <Route path="/all-products" element={<AllProducts />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/checkout-success" element={<CheckoutSuccess />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-          <Toaster />
-        </TooltipProvider>
+        <ThemeProvider>
+          <TooltipProvider>
+            <BrowserRouter>
+              <ScrollToTop />
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/product/:id" element={<ProductDetail />} />
+                <Route path="/category/:categoryName" element={<CategoryPage />} />
+                <Route path="/all-products" element={<AllProducts />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/checkout-success" element={<CheckoutSuccess />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+            <Toaster />
+          </TooltipProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </React.StrictMode>
   );
